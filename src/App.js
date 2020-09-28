@@ -5,7 +5,24 @@ import Post from './components/posts/Post';
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    posts: [
+      {
+        username:"yashjsalian",
+        caption: "Hi caption works",
+        image: "https://www.perfectdogbreeds.com/wp-content/uploads/2020/05/Small-Golden-Retriever.jpg"
+      },
+      {
+        username:"yashjsalian",
+        caption: "Hi caption works",
+        image: "https://thehappypuppysite.com/wp-content/uploads/2018/07/how-long-do-golden-retrievers-live-KH-long.jpg"
+      }
+    ]
+  }
+
   render() {
+
     return (
       <div className="app">
         <div className="app-header">
@@ -13,15 +30,13 @@ class App extends Component {
           src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="instagram" />
         </div>
         
-        <Post username="yashjsalian" 
-          caption="Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don't need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop"
-          image="https://www.freecodecamp.org/static/wide-image-f3e20fc9bd28e3cc95519402baf76826.png" />
-        <Post username="yashjsalian" 
-          caption="Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don't need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop"
-          image="https://www.freecodecamp.org/static/wide-image-f3e20fc9bd28e3cc95519402baf76826.png" />
-        <Post username="yashjsalian" 
-          caption="Redundant alt attribute. Screen-readers already announce `img` tags as an image. You don't need to use the words `image`, `photo,` or `picture` (or any specified custom words) in the alt prop"
-          image="https://www.freecodecamp.org/static/wide-image-f3e20fc9bd28e3cc95519402baf76826.png" />
+        {
+          this.state.posts.map(post => (
+            <Post username={post.username}
+              caption={post.caption}
+              image={post.image} />
+          ))
+        }
       </div>
     );
   }
