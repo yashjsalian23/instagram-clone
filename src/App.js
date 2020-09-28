@@ -1,27 +1,23 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Post from './components/posts/Post';
+import {db} from './config/firebase';
 
 import './App.css';
 
-class App extends Component {
+const App = () =>   {
 
-  state = {
-    posts: [
-      {
-        username:"yashjsalian",
-        caption: "Hi caption works",
-        image: "https://www.perfectdogbreeds.com/wp-content/uploads/2020/05/Small-Golden-Retriever.jpg"
-      },
-      {
-        username:"yashjsalian",
-        caption: "Hi caption works",
-        image: "https://thehappypuppysite.com/wp-content/uploads/2018/07/how-long-do-golden-retrievers-live-KH-long.jpg"
-      }
-    ]
-  }
+  const [posts, setPosts] = useState([]);
 
-  render() {
+  useEffect(() => {
+    db.collection('posts').onSnapshot(snapshot => {
+      setPosts(snapshot.docs.map(doc => doc.data()));
+    })
+  }, []);
+    
+  
+
+  
 
     return (
       <div className="app">
@@ -29,9 +25,9 @@ class App extends Component {
           <img classname="app-header-image"
           src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="instagram" />
         </div>
-        
+
         {
-          this.state.posts.map(post => (
+          posts.map(post => (
             <Post username={post.username}
               caption={post.caption}
               image={post.image} />
@@ -40,6 +36,5 @@ class App extends Component {
       </div>
     );
   }
-}
 
 export default App;
