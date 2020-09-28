@@ -3,7 +3,7 @@ import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Post from './components/posts/Post';
-import {db} from './config/firebase';
+import { db, auth } from './config/firebase';
 
 import './App.css';
 import { Button } from '@material-ui/core';
@@ -34,11 +34,35 @@ const App = () =>   {
   const classes = useStyles();
 
   const [posts, setPosts] = useState([]);
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isSignupOpen, setIsSignupOpen] = useState(false); 
+  const [isSigninOpen, setIsSigninOpen] = useState(false); 
   const [modalStyle] = useState(getModalStyle);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(authUser => {
+      if(authUser){
+        setUser(authUser);
+        console.log(authUser);
+
+        if(!authUser.displayName){
+          return authUser.updateProfile({
+            displayName: username
+          });
+        }
+
+      } else {
+        setUser(null);
+      }
+    })
+
+    return () => {
+      unsubscribe();
+    }
+  }, [user, username])
 
   useEffect(() => {
     db.collection('posts').onSnapshot(snapshot => {
@@ -46,19 +70,34 @@ const App = () =>   {
     })
   }, []);
 
+  const signup = event => {
+    event.preventDefault();
+    auth.createUserWithEmailAndPassword(email,password)
+    .catch(err => alert(err.message));
+
+    setIsSignupOpen(false);
+  }
   
+  const signin = event => {
+    event.preventDefault();
+    auth.signInWithEmailAndPassword(email,password)
+    .catch(err => alert(err.message));
+
+    setIsSigninOpen(false);
+  }
 
   return (
     <div className="app">
       <Modal 
-        open={isOpen}
-        onClose={() => setIsOpen(false)} >
+        open={isSignupOpen}
+        onClose={() => setIsSignupOpen(false)} >
         <div style={modalStyle} className={classes.paper}>
           <center >
-            <img classname="app-header-image"
+            <img className="app-header-image"
               src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" 
               alt="instagram" />
-            <form id="app-signup-form" >
+
+            <form id="app-signup-form" onSubmit={signup} >
               <input 
                 className="app-input"
                 type="text"
@@ -89,13 +128,53 @@ const App = () =>   {
         </div>
       </Modal>
 
-      
+      <Modal 
+        open={isSigninOpen}
+        onClose={() => setIsSigninOpen(false)} >
+        <div style={modalStyle} className={classes.paper}>
+          <center >
+            <img className="app-header-image"
+              src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" 
+              alt="instagram" />
+
+            <form id="app-signup-form" onSubmit={signin} >
+              <input 
+                className="app-input"
+                type="email"
+                placeholder="email"
+                value={email}
+                onChange={event => setEmail(event.target.value)}
+                 /> 
+
+              <input 
+                className="app-input"
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={event => setPassword(event.target.value)}
+                 /> 
+
+                <Button type="submit">Submit</Button>
+            </form>
+          </center>
+        </div>
+      </Modal>
 
       <div className="app-header">
-        <img classname="app-header-image"
+        <img className="app-header-image"
         src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" 
         alt="instagram" />
-        <Button onClick={() => setIsOpen(true)}>Sign up</Button>
+        {
+          !user ? (
+            <React.Fragment>
+              <Button onClick={() => setIsSignupOpen(true)}>Sign up</Button>
+              <Button onClick={() => setIsSigninOpen(true)}>Sign in</Button>
+            </React.Fragment>
+          ) : (
+            <Button onClick={() => auth.signOut()}>Logout</Button>
+          )
+        }
+        
       </div>
 
       {
