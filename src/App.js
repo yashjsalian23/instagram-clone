@@ -35,7 +35,10 @@ const App = () =>   {
 
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false); 
-  const [modalStyle] = React.useState(getModalStyle);
+  const [modalStyle] = useState(getModalStyle);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     db.collection('posts').onSnapshot(snapshot => {
@@ -50,14 +53,48 @@ const App = () =>   {
       <Modal 
         open={isOpen}
         onClose={() => setIsOpen(false)} >
-        <div style={modalStyle} className={classes.paper}>Modal instagram</div>
+        <div style={modalStyle} className={classes.paper}>
+          <center >
+            <img classname="app-header-image"
+              src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" 
+              alt="instagram" />
+            <form id="app-signup-form" >
+              <input 
+                className="app-input"
+                type="text"
+                placeholder="username"
+                value={username}
+                onChange={event => setUsername(event.target.value)}
+                 /> 
+
+              <input 
+                className="app-input"
+                type="email"
+                placeholder="email"
+                value={email}
+                onChange={event => setEmail(event.target.value)}
+                 /> 
+
+              <input 
+                className="app-input"
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={event => setPassword(event.target.value)}
+                 /> 
+
+                <Button type="submit">Submit</Button>
+            </form>
+          </center>
+        </div>
       </Modal>
 
       
 
       <div className="app-header">
         <img classname="app-header-image"
-        src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="instagram" />
+        src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" 
+        alt="instagram" />
         <Button onClick={() => setIsOpen(true)}>Sign up</Button>
       </div>
 
