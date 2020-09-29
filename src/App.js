@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import InstagramEmbed from 'react-instagram-embed';
 
 import Post from './components/posts/Post';
 import { db, auth } from './config/firebase';
@@ -167,10 +168,10 @@ const App = () =>   {
         alt="instagram" />
         {
           !user ? (
-            <React.Fragment>
+            <div>
               <Button onClick={() => setIsSignupOpen(true)}>Sign up</Button>
               <Button onClick={() => setIsSigninOpen(true)}>Sign in</Button>
-            </React.Fragment>
+            </div>
           ) : (
             <Button onClick={() => auth.signOut()}>Logout</Button>
           )
@@ -178,20 +179,39 @@ const App = () =>   {
         
       </div>
 
-      {
-        posts.map(({id, post}) => (
-          <Post key={id}
-            username={post.username}
-            caption={post.caption}
-            image={post.image} />
-        ))
-      }
+      <div className="app-posts">
+        <div className="app-posts-left">
+          {
+            posts.map(({id, post}) => (
+              <Post key={id}
+                username={post.username}
+                caption={post.caption}
+                image={post.image} />
+            ))
+          }
+        </div>
+        <div className="app-posts-right">
+          <InstagramEmbed
+            url='https://instagr.am/p/Zw9o4/'
+            maxWidth={320}
+            hideCaption={false}
+            containerTagName='div'
+            protocol=''
+            injectScript
+            onLoading={() => {}}
+            onSuccess={() => {}}
+            onAfterRender={() => {}}
+            onFailure={() => {}}
+          />
+        </div>
+
+      </div>
 
       {
         user? (
           <ImageUpload username={user.displayName} />
         ) : (
-          <h1>You need to Login to upload</h1>
+          <h1 style={{textAlign:"center"}}>You need to Login to upload</h1>
         )
       }
     </div>

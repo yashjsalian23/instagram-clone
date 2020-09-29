@@ -15,6 +15,16 @@
   justify-content: space-between;
 }
 
+.app-posts{
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.app-posts-left{
+  margin-right: 20px;
+}
+
 #app-signup-form{
   display: flex;
   flex-direction: column;
