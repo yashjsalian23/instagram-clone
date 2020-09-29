@@ -28,7 +28,7 @@ const Post = ({postId, username, caption, image}) => {
     }, [postId]);
 
     const postComment = event => {
-        
+
     }
 
     return (
@@ -47,6 +47,16 @@ const Post = ({postId, username, caption, image}) => {
                     alt="body" />
 
                 <p className="post-caption"><strong>{username}</strong>: {caption}</p>
+
+                <div className="post-commentlist">
+                    {
+                        comments.map(comment => 
+                            (<p>
+                                <strong>{comment.username}</strong>{comment.text}
+                            </p>)
+                        )
+                    }
+                </div>
 
                 <form className="post-comment-form">
                     <input className="post-comment-input"

@@ -27,6 +27,10 @@
     padding: 20px;
 }
 
+.post-commentlist{
+    padding: 20px;
+}
+
 .post-comment-form{
     display: flex;
     margin-top: 10px;
