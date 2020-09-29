@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
 
 import Post from './components/posts/Post';
 import { db, auth } from './config/firebase';
+import ImageUpload from './components/imageUpload/ImageUpload';
 
 import './App.css';
-import { Button } from '@material-ui/core';
 
 const getModalStyle = () => {
   const top = 50;
@@ -159,6 +160,14 @@ const App = () =>   {
           </center>
         </div>
       </Modal>
+
+      {
+        user? (
+          <ImageUpload username={user.displayName} />
+        ) : (
+          <h1>You need to Login to upload</h1>
+        )
+      }
 
       <div className="app-header">
         <img className="app-header-image"
