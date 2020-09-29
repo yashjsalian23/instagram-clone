@@ -186,6 +186,7 @@ const App = () =>   {
               <Post key={id}
                 postId={id}
                 username={post.username}
+                user={user}
                 caption={post.caption}
                 image={post.image} />
             ))

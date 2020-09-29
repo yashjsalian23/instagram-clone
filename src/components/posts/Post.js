@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
+import firebase from 'firebase';
 
 import { db } from '../../config/firebase';
 
 import './Post.css';
 
-const Post = ({postId, username, caption, image}) => {
+const Post = ({postId, username, caption, image, user}) => {
 
     const [comments, setComments ] = useState([]);
     const [comment, setComment ] = useState("");
@@ -28,7 +29,15 @@ const Post = ({postId, username, caption, image}) => {
     }, [postId]);
 
     const postComment = event => {
+        event.preventDefault();
 
+        db.collection('posts').doc(postId).collection('comments').add({
+            text: comment,
+            username: user.displayName,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        setComment('');
     }
 
     return (
@@ -51,8 +60,8 @@ const Post = ({postId, username, caption, image}) => {
                 <div className="post-commentlist">
                     {
                         comments.map(comment => 
-                            (<p>
-                                <strong>{comment.username}</strong>{comment.text}
+                            (<p style={{marginBottom:10}}>
+                                <strong>{comment.username}</strong>: {comment.text}
                             </p>)
                         )
                     }
