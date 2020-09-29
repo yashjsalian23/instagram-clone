@@ -10,6 +10,7 @@ import ImageUpload from './components/imageUpload/ImageUpload';
 
 import './App.css';
 
+//modal styling material UI
 const getModalStyle = () => {
   const top = 50;
   const left = 50;
@@ -21,10 +22,14 @@ const getModalStyle = () => {
   };
 }
 
+//adjusting modal width for web and mobile
+let width = window.innerWidth;
+let modalWidth = width>=481 ? 400: 200;
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
-    width: 400,
+    width: modalWidth,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -34,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () =>   {
   const classes = useStyles();
-
+  //state
   const [posts, setPosts] = useState([]);
   const [isSignupOpen, setIsSignupOpen] = useState(false); 
   const [isSigninOpen, setIsSigninOpen] = useState(false); 
@@ -44,6 +49,7 @@ const App = () =>   {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
+  //Inserting username
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(authUser => {
       if(authUser){
@@ -64,6 +70,7 @@ const App = () =>   {
     }
   }, [user, username])
 
+  //updating when new post is posted
   useEffect(() => {
     db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
       setPosts(snapshot.docs.map(doc => ({id: doc.id, post: doc.data()})));
@@ -89,6 +96,7 @@ const App = () =>   {
   return (
     <div className="app">
       <Modal 
+      className="app-modal"
         open={isSignupOpen}
         onClose={() => setIsSignupOpen(false)} >
         <div style={modalStyle} className={classes.paper}>
