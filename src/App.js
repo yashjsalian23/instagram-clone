@@ -104,6 +104,7 @@ const App = () =>   {
                 className="app-input"
                 type="text"
                 placeholder="username"
+                autoFocus
                 value={username}
                 onChange={event => setUsername(event.target.value)}
                  /> 
@@ -143,6 +144,7 @@ const App = () =>   {
               <input 
                 className="app-input"
                 type="email"
+                autoFocus
                 placeholder="email"
                 value={email}
                 onChange={event => setEmail(event.target.value)}

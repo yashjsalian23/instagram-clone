@@ -55,3 +55,10 @@
 .post-comment-input:focus{
     outline: none;
 }
+
+/* @media (max-width: 750px){
+    .post{
+        margin-left: auto;
+        margin-right: auto;
+    }
+} */

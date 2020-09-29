@@ -67,7 +67,7 @@ const Post = ({postId, username, caption, image, user}) => {
                     }
                 </div>
 
-                <form className="post-comment-form">
+                {user && (<form className="post-comment-form">
                     <input className="post-comment-input"
                         type="text"
                         value={comment}
@@ -81,7 +81,7 @@ const Post = ({postId, username, caption, image, user}) => {
                        onClick={postComment} >
                         Submit
                     </button>
-                </form>
+                </form>)}
             </div>
         </React.Fragment>
     );
