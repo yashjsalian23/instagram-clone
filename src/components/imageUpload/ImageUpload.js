@@ -55,20 +55,22 @@ const ImageUpload = ({username}) => {
 
     return (
         <React.Fragment>
-            <progress value={progress} max="100" />
-            <input className="imageupload-input"
-                type="text"
-                placeholder="Enter caption"
-                value={caption}
-                onChange={event => setCaption(event.target.value)} />
-
-            <input
-                type="file"
-                onChange={handleChange} />
-
-            <Button onClick={handleUpload}>
-                Upload
-            </Button>
+            <div className="imageupload">
+                <progress className="imageupload-progress" value={progress} max="100" />
+                <input className="imageupload-input"
+                    type="text"
+                    placeholder="Enter caption"
+                    value={caption}
+                    onChange={event => setCaption(event.target.value)} />
+    
+                <input
+                    type="file"
+                    onChange={handleChange} />
+    
+                <Button onClick={handleUpload}>
+                    Upload
+                </Button>
+            </div>
         </React.Fragment>
     );
 };

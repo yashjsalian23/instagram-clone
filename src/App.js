@@ -161,14 +161,6 @@ const App = () =>   {
         </div>
       </Modal>
 
-      {
-        user? (
-          <ImageUpload username={user.displayName} />
-        ) : (
-          <h1>You need to Login to upload</h1>
-        )
-      }
-
       <div className="app-header">
         <img className="app-header-image"
         src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" 
@@ -193,6 +185,14 @@ const App = () =>   {
             caption={post.caption}
             image={post.image} />
         ))
+      }
+
+      {
+        user? (
+          <ImageUpload username={user.displayName} />
+        ) : (
+          <h1>You need to Login to upload</h1>
+        )
       }
     </div>
   );
