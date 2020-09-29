@@ -60,7 +60,7 @@ const Post = ({postId, username, caption, image, user}) => {
                 <div className="post-commentlist">
                     {
                         comments.map(comment => 
-                            (<p style={{marginBottom:10}}>
+                            (<p key={comment.id} style={{marginBottom:10}}>
                                 <strong>{comment.username}</strong>: {comment.text}
                             </p>)
                         )

@@ -48,8 +48,6 @@ const App = () =>   {
     const unsubscribe = auth.onAuthStateChanged(authUser => {
       if(authUser){
         setUser(authUser);
-        console.log(authUser);
-
         if(!authUser.displayName){
           return authUser.updateProfile({
             displayName: username
